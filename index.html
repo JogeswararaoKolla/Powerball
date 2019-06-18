@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerBall</title>
+</head>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<style>
+    .number-balls {
+        width: 35px;
+        height: 35px;
+        background-color: whitesmoke;
+        border-radius: 20px;
+        border: solid 1px black;
+        padding: 5px;
+        margin: 10px 8px 10px 0;
+        text-align: center;
+        float: left;
+    }
+</style>
+
+<body>
+
+    <div class="contianer-fluid">
+
+        <div class="jumbotron">
+            <h1 class="display-4">Powerball Lottery</h1>
+            <button type="button" id="powerballbutton" class="btn btn-primary btn-md">Generate Lottery Numbers</button>
+            <button type="button" id="clearbutton" class="btn btn-secondary">Clear Results</button>
+        </div>
+    </div>
+
+
+    <div class="power-ball">
+        <!-- <div class="number-balls" id="number-ball-01"></div>
+                <div class="number-balls" id="number-ball-02"></div>
+                <div class="number-balls" id="number-ball-03"></div>
+                <div class="number-balls" id="number-ball-04"></div>
+                <div class="number-balls" id="number-ball-05"></div>
+                <div class="number-balls" id="number-ball-06"></div> -->
+    </div>
+
+    </div>
+
+</body>
+<script>
+
+
+    function getRandomIntInclusive(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+        //The maximum is inclusive and the minimum is inclusive 
+    }
+
+    // Select five numbers from 1 to 69 for the white balls; 
+    // then select one number from 1 to 26 for the red Powerball.
+
+    $(document).ready(function () {
+
+       $("#clearbutton").on('click',function(){
+        $(".power-ball").empty();
+
+       });
+   
+        $("#powerballbutton").on('click', function () {
+
+
+            let pbWhiteballs = new Array();
+            let pbRedballs = new Array();
+            let powerballNumbers = new Array();
+
+
+            for (let i = 1; i < 70; i++) {
+                pbWhiteballs.push(i);
+                if (i < 27) {
+                    pbRedballs.push(i);
+                }
+            }
+
+            console.log(pbWhiteballs);
+            console.log(pbRedballs);
+
+            console.log(powerballNumbers);
+            // The Math.max() function returns the largest of zero or more numbers.
+            // The static function Math.min() returns the lowest-valued number passed into it,
+            //  or NaN if any parameter isn't a number and can't be converted into one.
+
+            for (let i = 0; i < 5; i++) {
+                let minValue = Math.min(...pbWhiteballs);
+                let maxValue = Math.max(...pbWhiteballs);
+                console.log(minValue, maxValue);
+                let randomValue = getRandomIntInclusive(minValue, maxValue);
+                console.log(randomValue);
+                pbWhiteballs = pbWhiteballs.filter(pbValue => pbValue != randomValue);
+                console.log(pbWhiteballs);
+                powerballNumbers.push(randomValue);
+            }
+            powerballNumbers.push(getRandomIntInclusive(1, 26));
+
+            const targetDiv = $("<div class=row>");
+
+            for (let i = 0; i < powerballNumbers.length; i++) {
+
+                const targetDivcol = $("<div class=col>");
+
+                targetDivcol.attr("id", "number-ball-", i);
+                targetDivcol.addClass("number-balls");
+                targetDivcol.text(powerballNumbers[i]);
+                if (i == 5) {
+                    targetDivcol.css('background-color', 'rgb(43, 214, 226)');
+                }
+                targetDiv.append(targetDivcol);
+            }
+            $(".power-ball").prepend(targetDiv);
+
+            //   $(".power-ball-rows").append($(".power-ball"));
+
+            // $("#number-ball-01").text(powerballNumbers[0]);
+            // $("#number-ball-02").text(powerballNumbers[1]);
+            // $("#number-ball-03").text(powerballNumbers[2]);
+            // $("#number-ball-04").text(powerballNumbers[3]);
+            // $("#number-ball-05").text(powerballNumbers[4]);
+            // $("#number-ball-06").text(powerballNumbers[5]);
+            // $("#number-ball-06").css('background-color','rgb(43, 214, 226)');
+            //  console.log(powerballNumbers);
+            //  $(".power-ball").prepend("<br><hr>",$(".power-ball"));
+
+        });
+
+    });
+
+
+
+
+
+
+
+
+</script>
+
+</html>
